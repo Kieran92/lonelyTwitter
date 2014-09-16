@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +24,7 @@ public class LonelyTwitterActivity extends Activity {
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
-	
+	HashSet<String> h;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,16 +35,17 @@ public class LonelyTwitterActivity extends Activity {
 		Button saveButton = (Button) findViewById(R.id.save);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
-		saveButton.setOnClickListener(new View.OnClickListener() {
+//		saveButton.setOnClickListener(new View.OnClickListener() {
+//
+//
+//		});
+	}
+	public void onClick(View v) {
+		setResult(RESULT_OK);
+		String text = bodyText.getText().toString();
+		saveInFile(text, new Date(System.currentTimeMillis()));
+		finish();
 
-			public void onClick(View v) {
-				setResult(RESULT_OK);
-				String text = bodyText.getText().toString();
-				saveInFile(text, new Date(System.currentTimeMillis()));
-				finish();
-
-			}
-		});
 	}
 
 	@Override
@@ -54,6 +56,10 @@ public class LonelyTwitterActivity extends Activity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, tweets);
 		oldTweetsList.setAdapter(adapter);
+		
+		
+		
+		
 	}
 
 	private String[] loadFromFile() {
@@ -66,6 +72,17 @@ public class LonelyTwitterActivity extends Activity {
 				tweets.add(line);
 				line = in.readLine();
 			}
+//			Test t = new Test("Hello\n");
+//			//t.setText("abc");
+//			tweets.add(t.getText());
+//			
+//			Test t2 = new Test2("hi");
+//			tweets.add(t2.getText());
+//			interfaceimp1 ii = new interfaceimp1();
+//			tweets.add(ii.getText());
+			
+			
+			
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -81,7 +98,7 @@ public class LonelyTwitterActivity extends Activity {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
 					Context.MODE_APPEND);
-			fos.write(new String(date.toString() + " | " + text)
+			fos.write(new String(date.toString() + " | " + text+"\n")
 					.getBytes());
 			fos.close();
 		} catch (FileNotFoundException e) {
