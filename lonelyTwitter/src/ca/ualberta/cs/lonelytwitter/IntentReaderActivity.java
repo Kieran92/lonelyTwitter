@@ -25,6 +25,17 @@ public class IntentReaderActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intent_reader);
+		Intent intent  = getIntent();
+		text = intent.getStringExtra(TEXT_KEY);
+		if (text == null){
+			text = "nice try champ";
+			}
+		mode = intent.getIntExtra(TRANSFORM_KEY, NORMAL);
+		text = transformText(text);
+		TextView widget = (TextView) findViewById(R.id.intentText);
+		widget.setText(text);
+
+			
 	}
 	
 	public String transformText(String text) {
